@@ -1,3 +1,11 @@
 import styles from './App.module.css'
+import FormContainer from './components/Form/FormContainer'
 
-export default function App() {}
+export default function App() {
+	return (
+		<div>
+			<FormContainer />
+		</div>
+	)
+}
+
