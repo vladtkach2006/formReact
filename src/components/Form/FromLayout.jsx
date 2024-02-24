@@ -1,14 +1,20 @@
 import styles from './Form.module.css'
 
-export default function FormLayout({ onSubmit, allState }) {
+export default function FormLayout({
+	onSubmit,
+	getState,
+	onChangeEmail,
+	onChangePassword
+}) {
 	const {
 		email,
 		password,
 		repeatPassword,
 		errorMessageEmail,
 		errorMessagePassword,
-		errorMessageRepeatPassword
-	} = allState
+		errorMessageRepeatPassword,
+		isError
+	} = getState()
 
 	return (
 		<form className={styles.form} onSubmit={onSubmit}>
@@ -20,33 +26,40 @@ export default function FormLayout({ onSubmit, allState }) {
 				name='email'
 				id='email'
 				value={email}
+				onChange={onChangeEmail}
 			/>
 			{errorMessageEmail && (
 				<p className={styles.errorLabel}>{errorMessageEmail}</p>
 			)}
-			<label htmlFor='email'>Password</label>
+			<label htmlFor='password'>Password</label>
 			<input
 				className={styles.input}
 				type='password'
 				name='password'
 				id='password'
 				value={password}
+				onChange={onChangePassword}
 			/>
 			{errorMessagePassword && (
 				<p className={styles.errorLabel}>{errorMessagePassword}</p>
 			)}
-			<label htmlFor='email'>Repeat password</label>
+			<label htmlFor='repeatPassword'>Repeat password</label>
 			<input
 				className={styles.input}
 				type='password'
 				name='repeatPassword'
 				id='repeatPassword'
 				value={repeatPassword}
+				onChange={event => onChange(event, 'repeatPassword')}
 			/>
 			{errorMessageRepeatPassword && (
 				<p className={styles.errorLabel}>{errorMessageRepeatPassword}</p>
 			)}
-			<button className={styles.buttonRegister} type='submit'>
+			<button
+				className={styles.buttonRegister}
+				disabled={isError}
+				type='submit'
+			>
 				Register
 			</button>
 		</form>

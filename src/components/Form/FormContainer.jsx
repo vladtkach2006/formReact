@@ -1,27 +1,46 @@
-import { useState } from 'react'
 import FormLayout from './FromLayout'
+import { useStore } from '../../hooks/useStore'
 
 export default function FormContainer() {
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-	const [repeatPassword, setRepeatPassword] = useState('')
-	const [errorMessageEmail, setErrorMessageEmail] = useState(null)
-	const [errorMessagePassword, setErrorMessagePassword] = useState(null)
-	const [errorMessageRepeatPassword, setErrorMessageRepeatPassword] =
-		useState(null)
-
-	const allState = {
-		email,
-		password,
-		repeatPassword,
-		errorMessageEmail,
-		errorMessagePassword,
-		errorMessageRepeatPassword
-	}
+	const { getState, updateState, setError } = useStore()
 
 	const onSubmit = event => {
 		event.preventDefault()
 	}
 
-	return <FormLayout onSubmit={onSubmit} allState={allState} />
+	const onChangeEmail = ({ target }) => {
+		updateState('email', target.value)
+
+		let errorMessage = null
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(target.value)) {
+			errorMessage = 'Email must contain the characters "@" and "."'
+		}
+		setError('errorMessageEmail', errorMessage)
+	}
+
+	const onChangePassword = ({ target }) => {
+		updateState('password', target.value)
+
+		let errorMessage = null
+		if (
+			!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g.test(
+				target.value
+			)
+		) {
+			errorMessage =
+				'The password should contain at least 6 characters using numbers, special.Symbols, Latin, the presence of lowercase and capital symbols.'
+		}
+		console.log(getState().isError)
+		setError('errorMessagePassword', errorMessage)
+	}
+
+	return (
+		<FormLayout
+			onSubmit={onSubmit}
+			onChangeEmail={onChangeEmail}
+			getState={getState}
+			onChangePassword={onChangePassword}
+		/>
+	)
 }
+
