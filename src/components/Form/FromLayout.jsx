@@ -1,10 +1,14 @@
+import { useEffect } from 'react'
 import styles from './Form.module.css'
 
 export default function FormLayout({
 	onSubmit,
 	getState,
 	onChangeEmail,
-	onChangePassword
+	onChangePassword,
+	coincidencePasswords,
+	resetState,
+	submitButtonRef
 }) {
 	const {
 		email,
@@ -15,6 +19,14 @@ export default function FormLayout({
 		errorMessageRepeatPassword,
 		isError
 	} = getState()
+
+	// useEffect(() => {
+	// 	// Проверяем, все ли поля заполнены
+	// 	if (email && password && repeatPassword && !isError) {
+	// 		// Если все поля заполнены, устанавливаем фокус на кнопку Register
+	// 		submitButtonRef.current.focus()
+	// 	}
+	// }, [email, password, repeatPassword, isError, submitButtonRef])
 
 	return (
 		<form className={styles.form} onSubmit={onSubmit}>
@@ -50,7 +62,7 @@ export default function FormLayout({
 				name='repeatPassword'
 				id='repeatPassword'
 				value={repeatPassword}
-				onChange={event => onChange(event, 'repeatPassword')}
+				onChange={coincidencePasswords}
 			/>
 			{errorMessageRepeatPassword && (
 				<p className={styles.errorLabel}>{errorMessageRepeatPassword}</p>
@@ -59,8 +71,16 @@ export default function FormLayout({
 				className={styles.buttonRegister}
 				disabled={isError}
 				type='submit'
+				ref={submitButtonRef}
 			>
 				Register
+			</button>
+			<button
+				className={styles.buttonRegister}
+				type='reset'
+				onClick={resetState}
+			>
+				Reset form
 			</button>
 		</form>
 	)

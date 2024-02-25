@@ -17,16 +17,11 @@ export const useStore = () => {
 		updateState: (fieldName, newValue) => {
 			setState(prevState => ({
 				...prevState,
-				[fieldName]: newValue,
-				isError: false
+				[fieldName]: newValue
 			}))
 		},
-		setError: (fieldName, errorMessage) => {
-			setState(prevState => ({
-				...prevState,
-				[fieldName]: errorMessage,
-				isError: true
-			}))
+		resetState: () => {
+			setState(initialState)
 		}
 	}
 }
