@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
 import styles from './Form.module.css'
+import Input from '../Input/Input'
+import Button from '../Button/Button'
 
 export default function FormLayout({
 	onSubmit,
@@ -20,20 +21,11 @@ export default function FormLayout({
 		isError
 	} = getState()
 
-	// useEffect(() => {
-	// 	// Проверяем, все ли поля заполнены
-	// 	if (email && password && repeatPassword && !isError) {
-	// 		// Если все поля заполнены, устанавливаем фокус на кнопку Register
-	// 		submitButtonRef.current.focus()
-	// 	}
-	// }, [email, password, repeatPassword, isError, submitButtonRef])
-
 	return (
 		<form className={styles.form} onSubmit={onSubmit}>
 			<h1>Sing up</h1>
 			<label htmlFor='email'>Email</label>
-			<input
-				className={styles.input}
+			<Input
 				type='email'
 				name='email'
 				id='email'
@@ -44,8 +36,7 @@ export default function FormLayout({
 				<p className={styles.errorLabel}>{errorMessageEmail}</p>
 			)}
 			<label htmlFor='password'>Password</label>
-			<input
-				className={styles.input}
+			<Input
 				type='password'
 				name='password'
 				id='password'
@@ -56,8 +47,7 @@ export default function FormLayout({
 				<p className={styles.errorLabel}>{errorMessagePassword}</p>
 			)}
 			<label htmlFor='repeatPassword'>Repeat password</label>
-			<input
-				className={styles.input}
+			<Input
 				type='password'
 				name='repeatPassword'
 				id='repeatPassword'
@@ -67,21 +57,19 @@ export default function FormLayout({
 			{errorMessageRepeatPassword && (
 				<p className={styles.errorLabel}>{errorMessageRepeatPassword}</p>
 			)}
-			<button
-				className={styles.buttonRegister}
+			<Button
 				disabled={isError}
 				type='submit'
 				ref={submitButtonRef}
 			>
 				Register
-			</button>
-			<button
-				className={styles.buttonRegister}
+			</Button>
+			<Button
 				type='reset'
 				onClick={resetState}
 			>
 				Reset form
-			</button>
+			</Button>
 		</form>
 	)
 }
